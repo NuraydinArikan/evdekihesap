@@ -1,0 +1,71 @@
+{
+  "name": "Evdeki Hesap",
+  "short_name": "Evdeki Hesap",
+  "description": "Alışveriş listesi, aile bütçesi, AI asistan ve daha fazlası. Tüm ev yönetimi tek uygulamada.",
+  "id": "/index.html",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7f6",
+  "theme_color": "#f26522",
+  "orientation": "portrait",
+  "categories": [
+    "lifestyle",
+    "productivity",
+    "utilities"
+  ],
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Market Listesi",
+      "short_name": "Market",
+      "description": "Alışveriş listene git",
+      "url": "./index.html#market",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Bütçe",
+      "short_name": "Bütçe",
+      "description": "Para durumuna bak",
+      "url": "./index.html#butce",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

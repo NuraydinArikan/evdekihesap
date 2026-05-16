@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gizlilik Politikası | Evdeki Hesap</title>
+    <link rel="icon" type="image/png" href="evdekihesap_logo_yeni.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { background: #e2e8f0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7f6;
+            color: #374151;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #f26522, #d35400);
+            color: white;
+            padding: 40px 25px 55px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            text-align: center;
+        }
+
+        .header img {
+            width: 70px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .header h1 { font-size: 22px; font-weight: 800; margin-bottom: 5px; }
+        .header p  { font-size: 13px; opacity: 0.85; font-style: italic; }
+
+        /* İÇERİK */
+        .content { padding: 15px; margin-top: -25px; }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+
+        .card h2 {
+            font-size: 15px;
+            font-weight: 800;
+            color: #c2410c;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #4b5563;
+        }
+
+        /* UYARI KARTI */
+        .card.dikkat {
+            background: #fff7ed;
+            border-color: #fed7aa;
+        }
+
+        .card.dikkat h2 { color: #92400e; }
+
+        /* GERİ BUTONU */
+        .back-btn {
+            display: block;
+            width: calc(100% - 30px);
+            margin: 0 15px 25px;
+            padding: 14px;
+            background: #f26522;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover { background: #d35400; }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 15px 20px 30px;
+            font-size: 12px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="evdekihesap_logo_yeni.png" alt="Evdeki Hesap Logo">
+        <h1>Şeffaflık Sözümüz</h1>
+        <p>Verilerinizin güvenliği bizim için önceliklidir.</p>
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+            <span class="card-icon">🔒</span>
+            <h2>Uçtan Uca Güvenlik</h2>
+            <p>Tüm liste ve bütçe verileriniz, yalnızca yüksek güvenlikli (HTTPS) bağlantılara zorunlu kılan <b>.app</b> uzantılı alan adımız üzerinden iletilir. Verileriniz, dünyanın en güvenilir altyapılarından biri olan <b>Google Firebase</b> ile AES-256 şifreleme standardında, Avrupa sunucularında (Belçika/europe-west1) saklanır.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">🛡️</span>
+            <h2>Üçüncü Partiler ve Reklamcılar</h2>
+            <p>Bilgileriniz <b>asla</b> reklam şirketlerine, veri aracılarına veya herhangi bir üçüncü tarafa satılmaz ya da paylaşılmaz. Evdeki Hesap reklam göstermez; amacımız sizi olur olmaz reklamlara tıklatmak değil, hayatınızı kolaylaştırmaktır.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">🤖</span>
+            <h2>Yapay Zeka Kullanımı</h2>
+            <p>AI özellikleri (tatil planlama, bütçe analizi, tarif önerisi vb.) için kendi <b>Google Gemini API anahtarınızı</b> kullanırsınız. Bu sayede verileriniz bizim üzerimizden değil, doğrudan sizin anahtarınızla Google'a iletilir. Kimliğiniz anonim tutulur ve harcama alışkanlıklarınız işlenmez.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">⚙️</span>
+            <h2>Kontrol Tamamen Sizde</h2>
+            <p>Hesabınızı ve tüm verilerinizi dilediğiniz an kalıcı olarak silebilirsiniz. Aile grubu oluşturduğunuzda, grubun şifresini bilen herkes verilere erişebilir — şifrenizi güvenli saklayın.</p>
+        </div>
+
+        <div class="card dikkat">
+            <span class="card-icon">🛑</span>
+            <h2>Sakın Tıklamayın!</h2>
+            <p>Siz talep etmediğiniz sürece (şifremi unuttum veya ilk üyelik onayı gibi işlemler dışında) e-posta adresinize ya da telefonunuza <b>asla sürpriz link göndermeyiz.</b> Böyle bir mesaj alırsanız bu bizden değildir — dolandırıcılık girişimi olabilir, tıklamayın.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">🤫</span>
+            <h2>Özeliniz Size Özel</h2>
+            <p>TC kimlik numarası, pasaport, banka bilgisi, sosyal medya hesabı veya şifreleriniz gibi hassas kişisel bilgilerinizi <b>hiçbir zaman istemeyiz.</b> Uygulama içinde bu tür bilgileri paylaşmaktan kaçının.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">🍪</span>
+            <h2>Çerezler (Cookies)</h2>
+            <p>Uygulama oturumunuzu açık tutmak ve tercihlerinizi (isim, API anahtarı, çerez onayı gibi) hatırlamak için yalnızca cihazınızın yerel depolamasını (<code>localStorage</code>) kullanır. Üçüncü taraf izleme çerezi kullanılmaz.</p>
+        </div>
+
+    </div>
+
+    <a href="index.html" class="back-btn">← Uygulamaya Geri Dön</a>
+
+    <div class="footer">
+        © 2026 Evdeki Hesap &nbsp;·&nbsp; evdekihesap.app<br>
+        <span style="font-size:11px;">Tüm hakları saklıdır.</span>
+    </div>
+
+</body>
+</html>

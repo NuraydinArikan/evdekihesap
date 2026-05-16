@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>İptal ve İade Politikası | Evdeki Hesap</title>
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { background: #e2e8f0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7f6;
+            color: #374151;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #f26522, #d35400);
+            color: white;
+            padding: 40px 25px 55px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            text-align: center;
+        }
+        .header img { width: 70px; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .header h1 { font-size: 20px; font-weight: 800; margin-bottom: 5px; }
+        .header p { font-size: 12px; opacity: 0.85; }
+        .content { padding: 15px; margin-top: -25px; }
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+        .card.bilgi { background: #f0fdf4; border-color: #86efac; }
+        .card.uyari { background: #fff7ed; border-color: #fed7aa; }
+        .card h2 { font-size: 14px; font-weight: 800; color: #c2410c; margin-bottom: 10px; }
+        .card p, .card li { font-size: 13px; line-height: 1.7; color: #4b5563; margin-bottom: 5px; }
+        .card ul { padding-left: 18px; }
+        .card-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+        .back-btn {
+            display: block;
+            width: calc(100% - 30px);
+            margin: 0 15px 25px;
+            padding: 14px;
+            background: #f26522;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        .footer { text-align: center; padding: 15px 20px 30px; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; margin: 0 15px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="evdekihesap_logo_yeni.png" alt="Evdeki Hesap Logo">
+        <h1>İptal ve İade Politikası</h1>
+        <p>Son güncelleme: Nisan 2026</p>
+    </div>
+
+    <div class="content">
+
+        <div class="card bilgi">
+            <span class="card-icon">💚</span>
+            <h2>Önce Bunu Bilin</h2>
+            <p>Evdeki Hesap tamamen ücretsiz bir uygulamadır. Buradaki ödemeler, uygulamanın sürdürülebilirliğine katkı sağlamak amacıyla sunulan <strong>Evdeki Hesap Premium</strong> kapsamında gerçekleştirilen <strong>dijital destek ödemeleridir</strong> — zorunlu değildir.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">❌</span>
+            <h2>İptal Hakkı</h2>
+            <p>Evdeki Hesap Premium ödemeleri tek seferlik dijital hizmet ödemeleri niteliğinde olduğundan ileriye dönük iptal söz konusu değildir.</p>
+            <p>Abonelik veya tekrarlayan ödeme modeli bulunmamaktadır; her ödeme bağımsız bir işlemdir.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">🔄</span>
+            <h2>İade Koşulları</h2>
+            <p>Aşağıdaki durumlarda iade talebinde bulunabilirsiniz:</p>
+            <ul>
+                <li>Ödeme teknik bir hata nedeniyle birden fazla gerçekleştiyse</li>
+                <li>Ödeme yetkilendirmesi olmaksızın gerçekleştiyse (kart sahibinin bilgisi dışında)</li>
+                <li>Ödeme sonrası 48 saat içinde yazılı talep iletilmesi durumunda</li>
+            </ul>
+        </div>
+
+        <div class="card uyari">
+            <span class="card-icon">⚠️</span>
+            <h2>İade Yapılmayacak Durumlar</h2>
+            <ul>
+                <li>Satın alınan ve teslim edilen Evdeki Hesap Premium ödemeleri için 48 saati geçmiş iade talepleri</li>
+                <li>Kullanıcı hatası nedeniyle (yanlış tutar girişi gibi) oluşan ödemeler</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">📧</span>
+            <h2>İade Talebi</h2>
+            <p>İade talebinizi aşağıdaki bilgilerle birlikte iletebilirsiniz:</p>
+            <ul>
+                <li>Ad Soyad</li>
+                <li>Ödeme tarihi ve tutarı</li>
+                <li>İade gerekçesi</li>
+            </ul>
+            <p style="margin-top:10px;">
+                📧 <a href="mailto:destek@evdekihesap.app" style="color:#f26522;font-weight:700;">destek@evdekihesap.app</a>
+            </p>
+            <p style="margin-top:6px;font-size:12px;color:#9ca3af;">Talepler en geç 5 iş günü içinde yanıtlanır. Onaylanan iadeler 3–14 iş günü içinde karta yansır.</p>
+        </div>
+
+        <div class="card">
+            <span class="card-icon">⚖️</span>
+            <h2>Yasal Haklar</h2>
+            <p>6502 Sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği kapsamındaki yasal haklarınız saklıdır. Şikayetleriniz için İl Tüketici Hakem Heyetlerine veya <a href="https://tuketici.gtb.gov.tr" target="_blank" style="color:#f26522;">tuketici.gtb.gov.tr</a> adresine başvurabilirsiniz.</p>
+        </div>
+
+    </div>
+
+    <a href="index.html" class="back-btn">← Uygulamaya Geri Dön</a>
+
+    <div class="footer">
+        © 2026 Evdeki Hesap &nbsp;·&nbsp; evdekihesap.app
+    </div>
+</body>
+</html>
