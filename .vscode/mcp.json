@@ -1,0 +1,11 @@
+{
+	"inputs": [
+		{
+			"id": "clarity_api_token",
+			"type": "promptString",
+			"description": "Microsoft Clarity Data Export API token (generate in Clarity: Settings → Data Export).",
+			"password": true
+		}
+	],
+	"servers": {}
+}

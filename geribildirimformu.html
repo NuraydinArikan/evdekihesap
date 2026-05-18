@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evdeki Hesap — Geri Bildirim Formu Rehberi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  :root{--turuncu:#f26522;--koyu:#1a1a1a;--bg:#f8f6f1;--border:#e8e4dc;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--koyu);padding:36px 20px 60px;max-width:720px;margin:0 auto}
+  h1{font-size:22px;font-weight:800;margin-bottom:6px}
+  .lead{font-size:13px;color:#888;margin-bottom:36px}
+  .section{margin-bottom:32px}
+  .section-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .q-card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:10px}
+  .q-num{display:inline-block;background:var(--turuncu);color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:10px;margin-bottom:8px}
+  .q-text{font-size:15px;font-weight:700;color:var(--koyu);margin-bottom:8px;line-height:1.4}
+  .q-type{font-size:11px;color:#888;margin-bottom:10px}
+  .q-opts{display:flex;flex-direction:column;gap:6px}
+  .q-opt{font-size:13px;color:#374151;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:8px 12px}
+  .q-note{font-size:12px;color:#f26522;margin-top:8px;font-style:italic}
+  .step-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .step-list li{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:#374151;line-height:1.6}
+  .step-num{background:var(--koyu);color:white;font-size:11px;font-weight:800;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .code-block{background:#1a1a1a;color:#e5e7eb;padding:16px 18px;border-radius:12px;font-family:monospace;font-size:12px;line-height:1.8;overflow-x:auto;margin-top:10px}
+  .code-block .c-orange{color:#f26522}
+  .code-block .c-green{color:#86efac}
+  .code-block .c-blue{color:#93c5fd}
+  .note-box{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 16px;font-size:13px;color:#92400e;line-height:1.7;margin-top:16px}
+  .success-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px 16px;font-size:13px;color:#166534;line-height:1.7;margin-top:10px}
+</style>
+</head>
+<body>
+
+<h1>📋 Beta Geri Bildirim Formu</h1>
+<p class="lead">Google Forms kurulum rehberi · Uygulama entegrasyonu · Hazır sorular</p>
+
+<!-- SORULAR -->
+<div class="section">
+  <div class="section-title">Form Soruları — Google Forms'a Kopyala</div>
+
+  <div class="q-card">
+    <div class="q-num">Soru 1</div>
+    <div class="q-text">Evdeki Hesap'ı genel olarak nasıl değerlendirirsiniz?</div>
+    <div class="q-type">📊 Tür: Lineer ölçek (1–5) · 1 = Hayal kırıklığı, 5 = Harika</div>
+    <div class="q-note">⭐ Bu soruyu zorunlu yap — temel metriğimiz</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Soru 2</div>
+    <div class="q-text">En çok hangi özellikleri kullandınız? (Birden fazla seçebilirsiniz)</div>
+    <div class="q-type">☑️ Tür: Onay kutusu (çoklu seçim)</div>
+    <div class="q-opts">
+      <div class="q-opt">🛒 Market / Alışveriş Listesi</div>
+      <div class="q-opt">💰 Bütçe Takibi</div>
+      <div class="q-opt">💳 Abonelik Yönetimi</div>
+      <div class="q-opt">📚 Kütüphane</div>
+      <div class="q-opt">🏠 Varlıklarım (araç, ev, cihaz)</div>
+      <div class="q-opt">👨‍👩‍👧‍👦 Ailem</div>
+      <div class="q-opt">🥗 Diyet Takibi</div>
+      <div class="q-opt">👗 Kombin</div>
+      <div class="q-opt">✈️ Tatil Planlama</div>
+      <div class="q-opt">🤖 AI Özellikleri (Gemini)</div>
+      <div class="q-opt">📅 Ajanda</div>
+      <div class="q-opt">🌿 Bitkiler / 🐾 Canlar</div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Soru 3</div>
+    <div class="q-text">Eksik gördüğünüz veya eklenmesini istediğiniz bir özellik var mı?</div>
+    <div class="q-type">📝 Tür: Uzun metin (paragraf) · Zorunlu değil</div>
+    <div class="q-note">💡 En değerli soru — kullanıcıların ne istediğini öğreniyoruz</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Soru 4</div>
+    <div class="q-text">Evdeki Hesap'ı bir arkadaşınıza tavsiye eder misiniz?</div>
+    <div class="q-type">🔘 Tür: Çoktan seçmeli</div>
+    <div class="q-opts">
+      <div class="q-opt">✅ Evet, kesinlikle tavsiye ederim</div>
+      <div class="q-opt">🤔 Belki — birkaç iyileştirme olursa</div>
+      <div class="q-opt">❌ Hayır, henüz tavsiye etmem</div>
+    </div>
+    <div class="q-note">📈 NPS (Net Promoter Score) için temel veri</div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Soru 5 — İsteğe bağlı</div>
+    <div class="q-text">Benimle iletişime geçmemi ister misiniz? (E-posta adresinizi bırakın)</div>
+    <div class="q-type">📧 Tür: Kısa metin · Zorunlu değil · Başlığa ekle: "Gizliliğinize saygı duyarız"</div>
+    <div class="q-note">💡 Detaylı geri bildirim için kullanıcıyla doğrudan iletişim kurabilirsiniz</div>
+  </div>
+</div>
+
+<!-- GOOGLE FORMS KURULUM -->
+<div class="section">
+  <div class="section-title">Google Forms Kurulum Adımları</div>
+  <ul class="step-list">
+    <li><div class="step-num">1</div>forms.google.com → Boş form oluştur</li>
+    <li><div class="step-num">2</div>Başlık: <strong>Evdeki Hesap — Beta Geri Bildirimi</strong></li>
+    <li><div class="step-num">3</div>Açıklama: "Bu form tamamen gönüllüdür. Cevaplarınız uygulamanın geliştirilmesine doğrudan katkı sağlar."</li>
+    <li><div class="step-num">4</div>Yukarıdaki 5 soruyu sırasıyla ekle, türlerini ayarla</li>
+    <li><div class="step-num">5</div>Sağ üst → Renk: turuncu (#f26522) seç</li>
+    <li><div class="step-num">6</div>Ayarlar → Yanıtlar → <strong>E-posta adresi toplama</strong>: Kapalı bırak (Soru 5 zaten soruyor)</li>
+    <li><div class="step-num">7</div>Gönder → Linki kopyala → Kısa link için bit.ly veya tinyurl kullan</li>
+    <li><div class="step-num">8</div>Yanıtlar sekmesi → yeşil Sheets ikonu → Google Sheets'e bağla (otomatik toplanır)</li>
+  </ul>
+
+  <div class="success-box">
+    ✅ Form linki hazır olunca hem uygulamaya hem Mailchimp 7. gün e-postasına ekleyin.
+  </div>
+</div>
+
+<!-- UYGULAMA ENTEGRASYONU -->
+<div class="section">
+  <div class="section-title">Uygulamaya Eklenecek Buton Kodu</div>
+  <p style="font-size:13px;color:#374151;margin-bottom:12px;">
+    Ayarlar sekmesine ve footer'a eklenecek. <code>FORM_LINKINIZ</code> yerine Google Forms linkinizi yazın:
+  </p>
+
+  <div class="code-block">
+<span class="c-green">&lt;!-- Ayarlar sekmesi veya footer --&gt;</span><br>
+<span class="c-orange">&lt;a</span> <span class="c-blue">href</span>=<span class="c-green">"FORM_LINKINIZ"</span><br>
+&nbsp;&nbsp;&nbsp;<span class="c-blue">target</span>=<span class="c-green">"_blank"</span><br>
+&nbsp;&nbsp;&nbsp;<span class="c-blue">rel</span>=<span class="c-green">"noopener"</span><br>
+&nbsp;&nbsp;&nbsp;<span class="c-blue">class</span>=<span class="c-green">"btn"</span><br>
+&nbsp;&nbsp;&nbsp;<span class="c-blue">style</span>=<span class="c-green">"background:#f0fdf4;color:#166534;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;border:1px solid #bbf7d0;margin-top:8px;"</span><span class="c-orange">&gt;</span><br>
+&nbsp;&nbsp;&nbsp;📋 Geri Bildirim Formu<br>
+<span class="c-orange">&lt;/a&gt;</span>
+  </div>
+
+  <div class="note-box">
+    ⚠️ Form linki hazır olmadan bu butonu eklemeyin — boş link kullanıcı deneyimini bozar.
+    Form hazır olunca buraya yazın, kodu hemen index.html ve app.js'e ekleyelim.
+  </div>
+</div>
+
+<!-- ANALİZ NOTU -->
+<div class="section">
+  <div class="section-title">Beta Sonrası Ne Yapacaksınız?</div>
+  <ul class="step-list">
+    <li><div class="step-num">1</div><strong>Soru 1 ortalaması ≥ 4</strong> → Genel lansman için yeşil ışık</li>
+    <li><div class="step-num">2</div><strong>Soru 2 en çok seçilenler</strong> → Hangi modüle önce odaklanacağınızı belirler (Faz 7-8 sıralaması)</li>
+    <li><div class="step-num">3</div><strong>Soru 3 tekrar eden talepler</strong> → Kontrol listesine "kullanıcı talebi" etiketi ile ekleyin</li>
+    <li><div class="step-num">4</div><strong>Soru 4 tavsiye oranı</strong> → %60+ "kesinlikle tavsiye ederim" → genel lansman sinyali</li>
+    <li><div class="step-num">5</div><strong>Soru 5 iletişim izni verenleri</strong> → Mailchimp listesine FNAME ile ekleyin</li>
+  </ul>
+</div>
+
+</body>
+</html>
