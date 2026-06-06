@@ -1,3 +1,20 @@
+// ⬇️ SENTRY BAŞLATMA — 1. satır!
+Sentry.init({
+  dsn: 'https://1a71304b94c153b5f1e1ea98d1ecc559@o4511404686901248.ingest.us.sentry.io/4511404687097856',
+  environment: window.location.hostname === 'evdekihesap.app' ? 'production' : 'staging',
+  release: 'app@v73',
+  tracesSampleRate: 1.0,
+  beforeSend(event) {
+    if (event.request?.url) {
+      event.request.url = event.request.url.replace(/[\w\.-]+@[\w\.-]+\.\w+/g, '[EMAIL]');
+    }
+    if (event.user?.id) {
+      event.user.id = '[UID]';
+    }
+    return event;
+  }
+});
+
 // ==========================================
 // 🔥 FİREBASE YAPILANDIRMASI
 // ==========================================
@@ -50,6 +67,31 @@ window.addEventListener('visibilitychange', () => {
 });
 
 
+// ==========================================
+// 🤖 YAPAY ZEKA — MERKEZİ SİSTEM (Firebase Functions)
+// ==========================================
+
+async function callGemini(prompt) {
+    try {
+        const askGemini = firebase.app().functions('europe-west1').httpsCallable('askGemini');
+        const result = await askGemini({ prompt });
+        return result.data.text;
+    } catch (error) {
+        console.error('Firebase Functions hatası:', error);
+        return '⚠️ AI Asistan şu an yanıt veremiyor. Lütfen daha sonra tekrar deneyin.';
+    }
+}
+
+async function callGeminiVision(prompt, base64, mimeType) {
+    try {
+        const askGeminiVision = firebase.app().functions('europe-west1').httpsCallable('askGeminiVision');
+        const result = await askGeminiVision({ prompt, image: base64, mimeType });
+        return result.data;
+    } catch (error) {
+        console.error('Firebase Functions Vision hatası:', error);
+        throw new Error('Görüntü analiz edilemedi veya sunucu hatası oluştu.');
+    }
+}
 
 // ==========================================
 // 🌍 GLOBAL DURUM
@@ -553,8 +595,6 @@ function faturaOdendi(id) {
 async function faturaFotoOku(input) {
     const file = input.files[0];
     if (!file) return;
-    const key = getApiKey();
-    if (!key) return showToast('⚠️ Gemini API anahtarı gerekli.', 'error');
     const el = document.getElementById('faturaOcrSonuc');
     el.innerHTML = '<p style="font-size:12px;color:#92400e;padding:8px 0;">📸 Fatura okunuyor...</p>';
 
@@ -567,30 +607,14 @@ async function faturaFotoOku(input) {
     const mimeType = file.type || 'image/jpeg';
 
     try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [
-                        { text: `Bu bir fatura veya fiş görüntüsü. Lütfen şu bilgileri JSON formatında çıkar:\n{"ad":"kurum/firma adı","tutar":sadece sayı (TL),"sonOdeme":"YYYY-MM-DD veya null"}\nSadece JSON döndür.` },
-                        { inline_data: { mime_type: mimeType, data: base64 } }
-                    ]}],
-                    generationConfig: { temperature: 0.1 }
-                })
-            }
-        );
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-        const metin = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        const parsed = JSON.parse(metin.replace(/```json|```/g, '').trim());
+        const prompt = 'Bu bir fatura veya fiş görüntüsü. Lütfen şu bilgileri JSON formatında çıkar:\n{"ad":"kurum/firma adı","tutar":sadece sayı (TL),"sonOdeme":"YYYY-MM-DD veya null"}\nSadece JSON döndür.';
+        const parsed = await callGeminiVision(prompt, base64, mimeType);
         if (parsed.ad)       document.getElementById('faturaAd').value = parsed.ad;
         if (parsed.tutar)    document.getElementById('faturatutar').value = parsed.tutar;
         if (parsed.sonOdeme) document.getElementById('faturaSonOdeme').value = parsed.sonOdeme;
-        el.innerHTML = `<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#15803d;">✅ Okundu! Form dolduruldu. Kontrol edip kaydedin.</div>`;
+        el.innerHTML = '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#15803d;">✅ Okundu! Form dolduruldu. Kontrol edip kaydedin.</div>';
     } catch (e) {
-        el.innerHTML = `<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#dc2626;">⚠️ Fatura okunamadı: ${escapeHtml(e.message)}. Manuel girin.</div>`;
+        el.innerHTML = '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#dc2626;">⚠️ Fatura okunamadı: ' + escapeHtml(e.message) + '. Manuel girin.</div>';
     }
     input.value = '';
 }
@@ -985,8 +1009,6 @@ async function askAIForTatil() {
     const plan    = planEl?.value.trim();
     const butce   = butceEl?.value.trim();
     if (!plan) return showToast('Tatil hayalinizi yazın.', 'error');
-    const key = getApiKey();
-    if (!key) return showToast('⚠️ Ayarlar\'dan Gemini API anahtarı ekleyin!', 'error');
     const kim = localStorage.getItem('evdeki_displayName') || 'Siz';
     ref('tatilMesajlar').push({ text: plan, kim, type: 'user', ts: Date.now() });
     planEl.value = '';
@@ -1005,8 +1027,6 @@ async function mesajGonder() {
     const kim = localStorage.getItem('evdeki_displayName') || 'Siz';
     ref('tatilMesajlar').push({ text, kim, type: 'user', ts: Date.now() });
     input.value = '';
-    const key = getApiKey();
-    if (!key) return; // API yoksa sadece mesaj kaydedilir
     const loadingRef = ref('tatilMesajlar').push();
     await loadingRef.set({ text: '💭 Düşünüyorum...', kim: '🤖 Tatil Asistanı', type: 'ai-loading', ts: Date.now() });
     const cevap = await callGemini(`Sen bir tatil ve seyahat asistanısın. Kullanıcı şunu yazdı: "${text}". Kısa ve yardımcı bir Türkçe yanıt ver.`);
@@ -1534,8 +1554,6 @@ async function aiKaloriSor() {
 async function yemekFotoOku(input) {
     const file = input.files[0];
     if (!file) return;
-    const key = getApiKey();
-    if (!key) return showToast('⚠️ Gemini API anahtarı gerekli.', 'error');
     const el = document.getElementById('yemekFotoSonuc');
     el.innerHTML = '<p style="font-size:12px;color:#92400e;padding:8px 0;">📸 Yemek analiz ediliyor...</p>';
     const base64 = await new Promise((res, rej) => {
@@ -1545,32 +1563,13 @@ async function yemekFotoOku(input) {
         reader.readAsDataURL(file);
     });
     try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [
-                        { text: `Bu yemek fotoğrafını analiz et. Şu JSON formatında yanıt ver:\n{"ad":"yemek adı","kalori":tahmini kalori sayısı,"porsiyon":"porsiyon açıklaması","aciklama":"kısa besin bilgisi"}\nSadece JSON döndür.` },
-                        { inline_data: { mime_type: file.type || 'image/jpeg', data: base64 } }
-                    ]}],
-                    generationConfig: { temperature: 0.1 }
-                })
-            }
-        );
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-        const metin = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        const parsed = JSON.parse(metin.replace(/```json|```/g, '').trim());
+        const prompt = 'Bu yemek fotoğrafını analiz et. Şu JSON formatında yanıt ver:\n{"ad":"yemek adı","kalori":tahmini kalori sayısı,"porsiyon":"porsiyon açıklaması","aciklama":"kısa besin bilgisi"}\nSadece JSON döndür.';
+        const parsed = await callGeminiVision(prompt, base64, file.type || 'image/jpeg');
         document.getElementById('yemekAd').value    = parsed.ad || '';
         document.getElementById('yemekKalori').value = parsed.kalori || '';
-        el.innerHTML = `<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#15803d;">
-            ✅ <b>${escapeHtml(parsed.ad)}</b> — ${escapeHtml(String(parsed.kalori))} kcal (${escapeHtml(parsed.porsiyon)})<br>
-            <span style="color:#6b7280;">${escapeHtml(parsed.aciklama)}</span>
-        </div>`;
+        el.innerHTML = '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#15803d;">✅ ' + escapeHtml(parsed.ad) + ' — ' + escapeHtml(String(parsed.kalori)) + ' kcal (' + escapeHtml(parsed.porsiyon) + ')<br><span style="color:#6b7280;">' + escapeHtml(parsed.aciklama) + '</span></div>';
     } catch(e) {
-        el.innerHTML = `<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#dc2626;">⚠️ Analiz edilemedi: ${escapeHtml(e.message)}</div>`;
+        el.innerHTML = '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 10px;margin-top:6px;font-size:12px;color:#dc2626;">⚠️ Analiz edilemedi: ' + escapeHtml(e.message) + '</div>';
     }
     input.value = '';
 }
@@ -2309,7 +2308,7 @@ function _kutuphaneRender(tumItems) {
             <!-- Aksiyon butonları -->
             <div style="display:flex;gap:6px;width:100%;flex-wrap:wrap;">
                 ${!oduncte && item.durum !== 'okundu' ? `<button onclick="kitapDurumGuncelle('${item.id}','${item.durum}')" style="background:#10b981;color:white;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;">▶ ${item.durum==='okunacak'?'Okumaya Başla':'Okundu İşaretle'}</button>` : ''}
-                ${!oduncte ? `<button onclick="oduncModalAc('${item.id}','${escapeHtml(item.ad).replace(/'/g,"\'")}') " style="background:#7c3aed;color:white;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;">🤝 Ödünç Ver</button>` : `<button onclick="oduncIade('${item.id}')" style="background:#10b981;color:white;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;">↩️ İade Alındı</button>`}
+                ${!oduncte ? `<button onclick="oduncModalAc('${item.id}', '${escapeHtml(item.ad).replace(/'/g, "\\'").replace(/"/g, "&quot;")}')" style="background:#7c3aed;color:white;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;">🤝 Ödünç Ver</button>` : `<button onclick="oduncIade('${item.id}')" style="background:#10b981;color:white;border:none;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:600;">↩️ İade Alındı</button>`}
             </div>
         </div>`;
     }).join('');
@@ -2342,41 +2341,28 @@ function kitapDurumGuncelle(id, mevcutDurum) {
 }
 
 // ── Kapak / Barkod Fotoğrafı ile Otomatik Doldurma ──────────────
+// 📖 Kitap Kapak Okuma (OCR)
 async function kitapKapakOku(input) {
     logEvent('ai_use', { module: 'kutuphane_ai' });
     const file = input.files[0];
     if (!file) return;
-    const key = getApiKey();
-    if (!key) {
-        showToast('⚠️ Gemini API anahtarı gerekli. Ayarlar sekmesinden ekleyin.', 'error');
-        return;
-    }
 
     const sonucEl = document.getElementById('kapakTaramaSonuc');
     sonucEl.innerHTML = `<div style="background:#dbeafe;border-radius:8px;padding:10px;font-size:13px;color:#1d4ed8;font-weight:600;">
         <span style="display:inline-block;animation:shimmer 1.2s infinite;">📖 Kapak okunuyor, bilgiler çıkarılıyor...</span>
     </div>`;
 
-    // Fotoğrafı base64'e çevir
     const base64 = await new Promise((res, rej) => {
         const reader = new FileReader();
         reader.onload  = () => res(reader.result.split(',')[1]);
         reader.onerror = rej;
         reader.readAsDataURL(file);
     });
-
-    // Küçük önizleme göster
+    const mimeType = file.type || 'image/jpeg';
     const previewUrl = URL.createObjectURL(file);
 
     try {
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [
-                        { text: `Bu fotoğraf bir kitap, dergi veya dijital materyale ait kapak ya da arka kapak görüntüsüdür.
+        const prompt = `Bu fotoğraf bir kitap, dergi veya dijital materyale ait kapak ya da arka kapak görüntüsüdür.
 Fotoğraftaki yazılı bilgileri okuyarak aşağıdaki JSON formatında yanıt ver:
 {
   "ad": "materyalin tam adı",
@@ -2386,22 +2372,11 @@ Fotoğraftaki yazılı bilgileri okuyarak aşağıdaki JSON formatında yanıt v
   "tur": "kitap | roman | dergi | akademik | dijital | diger",
   "guven": "yuksek | orta | dusuk"
 }
-Eğer bir bilgi görünmüyorsa veya okunamıyorsa null yaz.
-Sadece JSON döndür, başka hiçbir şey yazma.` },
-                        { inline_data: { mime_type: file.type || 'image/jpeg', data: base64 } }
-                    ]}],
-                    generationConfig: { temperature: 0.05, maxOutputTokens: 300 }
-                })
-            }
-        );
+Eğer bir bilgi görünmüyorsa veya okunamıyorsa null yaz. Sadece JSON döndür.`;
+        
+        // Backend API çağrısı
+        const parsed = await callGeminiVision(prompt, base64, mimeType);
 
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-
-        const metin  = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        const parsed = JSON.parse(metin.replace(/```json|```/g, '').trim());
-
-        // Formu doldur (sadece dolu alanları)
         const alEt = (id, deger) => {
             const el = document.getElementById(id);
             if (el && deger) el.value = deger;
@@ -2416,7 +2391,6 @@ Sadece JSON döndür, başka hiçbir şey yazma.` },
             if (turEl) turEl.value = parsed.tur;
         }
 
-        // Güven rengi
         const guvenRenk = { yuksek: '#16a34a', orta: '#d97706', dusuk: '#dc2626' };
         const guvenText = { yuksek: '✅ Yüksek güven', orta: '⚠️ Orta güven — kontrol edin', dusuk: '⚠️ Düşük güven — lütfen kontrol edin' };
         const renk = guvenRenk[parsed.guven] || '#6b7280';
@@ -2440,8 +2414,7 @@ Sadece JSON döndür, başka hiçbir şey yazma.` },
             <span style="color:#6b7280;">Bilgileri manuel olarak girebilirsiniz.</span>
         </div>`;
     }
-
-    input.value = ''; // input'u sıfırla — aynı fotoğraf tekrar seçilebilsin
+    input.value = ''; 
 }
 
 function kitapEkle() {
@@ -2692,17 +2665,15 @@ function loadAilem() {
                 </div>
                 ${item.ilac ? `<div style="font-size:12px;color:#7c3aed;margin-top:2px;">💊 <b>İlaç:</b> ${escapeHtml(item.ilac)}</div>` : ''}
                 ${item.alerji ? `<div style="font-size:12px;color:#dc2626;margin-top:2px;">⚠️ <b>Alerji:</b> ${escapeHtml(item.alerji)}</div>` : ''}
-                ${item.kisaBilgi ? `<div style="font-size:12px;color:var(--primary);font-weight:600;margin-top:2px;">${escapeHtml(item.kisaBilgi)}</div>` : ''}
-                ${item.note ? `<div style="font-size:12px;color:#6b7280;margin-top:2px;">${escapeHtml(item.note)}</div>` : ''}
+                ${item.kisaBilgi ? `<div style="font-size:12px;color:#6b7280;margin-top:2px;">📝 ${escapeHtml(item.kisaBilgi)}</div>` : ''}
                 ${dogumGunuUyari}
             </div>`;
         }
         listEl.innerHTML = html;
-    }, err => {
-        listEl.innerHTML = `<p class="empty-msg" style="color:#dc2626;">⚠️ ${escapeHtml(err.message)}</p>`;
     });
     return () => { refAilem.off('value'); };
 }
+
 
 function ailemEkle() {
     logEvent('item_add', { module: 'ailem' });
@@ -3093,17 +3064,24 @@ function getApiKey() {
 // ==========================================
 // 🤖 YAPAY ZEKA — MERKEZİ SİSTEM (Firebase Functions)
 // ==========================================
-async function callGemini(prompt) {
+function _jsonParse(metin) {
+    if (!metin) throw new Error('Boş yanıt');
+    let temiz = metin.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    const bas = temiz.indexOf('{');
+    if (bas === -1) throw new Error('JSON bulunamadı');
+    temiz = temiz.substring(bas);
+    const son = temiz.lastIndexOf('}');
+    const tam = son !== -1 ? temiz.substring(0, son + 1) : temiz;
+    if (son !== -1) { try { return JSON.parse(tam); } catch(e1) {} }
+    if (son !== -1) { try { const f = tam.replace(/"((?:[^"\\]|\\.)*)"/g, (_,v) => '"'+v.replace(/\n/g,'\\n').replace(/\r/g,'\\r')+'"'); return JSON.parse(f); } catch(e2) {} }
     try {
-        const askGemini = firebase.app().functions('europe-west1').httpsCallable('askGemini');
-        const result = await askGemini({ prompt });
-        return result.data.text;
-    } catch (error) {
-        console.error('Firebase Functions hatası:', error);
-        return '⚠️ AI Asistan şu an yanıt veremiyor. Lütfen daha sonra tekrar deneyin.';
-    }
+        let p = temiz.replace(/[\x00-\x1F\x7F]/g,' ').replace(/,\s*$/,'');
+        if ((p.match(/"/g)||[]).length % 2 !== 0) p += '"';
+        const o=(p.match(/{/g)||[]).length, c=(p.match(/}/g)||[]).length;
+        for (let i=0;i<o-c;i++) p+='}';
+        return JSON.parse(p);
+    } catch(e3) { throw new Error('JSON Parse error: '+e3.message); }
 }
-
 // ==========================================
 // 🪟 MODAL
 // ==========================================
