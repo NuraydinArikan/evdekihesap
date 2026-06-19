@@ -1,4 +1,4 @@
-const CACHE_NAME = 'evdeki-hesap-v106';
+const CACHE_NAME = 'evdeki-hesap-v108';
 const urlsToCache = [
   './',
   './index.html',
