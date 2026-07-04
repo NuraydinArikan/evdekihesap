@@ -3629,8 +3629,14 @@ function acceptCookie() {
 
   /* YEDEK: nav görünür olunca da başlat (PWA yeniden açılış vb.) */
   var ugDeneme=0;
-  var ugTimer=setInterval(function(){ if(ugNavBul().length>=3){ ugMain(); clearInterval(ugTimer); } else if(++ugDeneme>40){ clearInterval(ugTimer); } },500);
-  setInterval(ugHomeBak,400);
+  var ugTimer=setInterval(function(){
+    var appSec=document.getElementById('appSection');
+    if(appSec && !appSec.classList.contains('hidden')){
+      if(ugNavBul().length>=3){ ugMain(); clearInterval(ugTimer); }
+      else if(++ugDeneme>40){ clearInterval(ugTimer); }
+    }
+  },500);
+  setInterval(ugHomeBak,1000);
 
   window.gorunumSeciciAc=function(){ ugGizleL(); ugGosterS(); };
   window.gorunumAnaEkran=function(){ ugGosterL(); };
