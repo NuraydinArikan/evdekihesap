@@ -97,7 +97,6 @@ async function callGeminiVision(prompt, base64, mimeType) {
 // 🌍 GLOBAL DURUM
 // ==========================================
 let activePath = "";
-let userApiKey = "";
 let currentUser = null;
 let isAile = false;
 const activeListeners = {}; // [FIX] loadedSections yerine — her sekme için temiz listener
@@ -198,16 +197,6 @@ auth.onAuthStateChanged(user => {
                 ad = localAd || _emaildenIsim(user.email);
             }
             document.getElementById('uMsg').textContent = 'Hoş geldin ' + ad + ' 🏡🫣';
-        });
-
-        rtdb.ref(user.uid + '/apiKey').once('value', snap => {
-            userApiKey = snap.val() || localStorage.getItem('evdeki_apiKey') || '';
-            const keyEl = document.getElementById('aiApiKey');
-            if (keyEl) keyEl.value = userApiKey ? '••••••••••••••••' : '';
-            if (userApiKey) {
-                const ind = document.getElementById('apiKeyIndicator');
-                if (ind) ind.innerHTML = '✅ Sisteme kayıtlı anahtarınız var';
-            }
         });
     } else {
         currentUser = null;
@@ -967,9 +956,6 @@ async function sefAiSor() {
 // ✈️ TATİL
 // ==========================================
 function loadTatil() {
-    const uyariEl = document.getElementById('tatilApiUyari');
-    if (uyariEl) uyariEl.style.display = getApiKey() ? 'none' : 'block';
-
     const refTatil = ref('tatilMesajlar');
     refTatil.on('value', snap => {
         const el = document.getElementById('tatilMesajlari');
@@ -3007,21 +2993,6 @@ async function varlikAiSor() {
 // ==========================================
 // ⚙️ AYARLAR
 // ==========================================
-function saveApiKey() {
-    const inputEl = document.getElementById('aiApiKey');
-    const key = inputEl.value.trim();
-    if (!key) return showToast('API anahtarı boş olamaz.', 'error');
-    if (key.length < 20) return showToast('⚠️ Geçersiz anahtar — çok kısa.', 'error');
-    userApiKey = key;
-    // Yalnızca Firebase'e kaydet — localStorage'a yazmıyoruz (güvenlik)
-    if (auth.currentUser) {
-        rtdb.ref(auth.currentUser.uid + '/apiKey').set(key);
-    }
-    inputEl.value = key.substring(0, 8) + '••••••••••••••••';
-    const ind = document.getElementById('apiKeyIndicator');
-    if (ind) ind.innerHTML = '✅ Sisteme kayıtlı anahtarınız var';
-    showToast('✅ API anahtarı kaydedildi! AI özellikleri aktif.', 'success');
-}
 
 // [FIX #2] Hesap silme butonu Ayarlar'a eklendi — fonksiyon zaten vardı
 async function hesabiSil() {
@@ -3052,13 +3023,6 @@ async function hesabiSil() {
             }
         )
     );
-}
-
-// ==========================================
-// 🤖 YAPAY ZEKA — GEMİNİ
-// ==========================================
-function getApiKey() {
-    return userApiKey || '';
 }
 
 // ==========================================

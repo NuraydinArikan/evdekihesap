@@ -1,9 +1,8 @@
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
-const { initializeApp }      = require("firebase-admin/app");
-const { getDatabase }        = require("firebase-admin/database");
+const { defineSecret }       = require("firebase-functions/params");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-initializeApp();
+const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
 
 // ─────────────────────────────────────────────
 // JSON ayrıştırıcı — LLM yanıtlarını güvenle parse eder
@@ -53,25 +52,13 @@ function _jsonParse(metin) {
 // askGemini — Metin tabanlı AI yanıtı
 // ─────────────────────────────────────────────
 exports.askGemini = onCall(
-    { region: "europe-west1" },
+    { region: "europe-west1", secrets: [GEMINI_API_KEY] },
     async (request) => {
         if (!request.auth) {
             throw new HttpsError("unauthenticated", "Giriş yapmalısınız.");
         }
 
-        const uid = request.auth.uid;
-        const db  = getDatabase();
-        const snap = await db.ref(uid + "/apiKey").once("value");
-        const userApiKey = snap.val();
-
-        if (!userApiKey) {
-            throw new HttpsError(
-                "failed-precondition",
-                "API anahtarı bulunamadı. Ayarlar bölümünden Gemini API anahtarınızı ekleyin."
-            );
-        }
-
-        const genAI = new GoogleGenerativeAI(userApiKey);
+        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         const result = await model.generateContent(request.data.prompt);
         return { text: result.response.text() };
@@ -82,25 +69,13 @@ exports.askGemini = onCall(
 // askGeminiVision — Görüntü + metin AI yanıtı
 // ─────────────────────────────────────────────
 exports.askGeminiVision = onCall(
-    { region: "europe-west1" },
+    { region: "europe-west1", secrets: [GEMINI_API_KEY] },
     async (request) => {
         if (!request.auth) {
             throw new HttpsError("unauthenticated", "Giriş yapmalısınız.");
         }
 
-        const uid = request.auth.uid;
-        const db  = getDatabase();
-        const snap = await db.ref(uid + "/apiKey").once("value");
-        const userApiKey = snap.val();
-
-        if (!userApiKey) {
-            throw new HttpsError(
-                "failed-precondition",
-                "API anahtarı bulunamadı. Ayarlar bölümünden Gemini API anahtarınızı ekleyin."
-            );
-        }
-
-        const genAI = new GoogleGenerativeAI(userApiKey);
+        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY.value());
         const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash",
             generationConfig: { temperature: 0.1 },
