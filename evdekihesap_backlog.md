@@ -17,7 +17,7 @@
   4. Mailchimp 7. gün e-postasına da ekle
 
 ### 2. Su Sekmesi — AI Sohbet Kutusu ✅ TAMAMLANDI
-- **Durum:** `sekmeAc()` her sekme geçişinde `sohbetiYukle(id)` çağırıyor (`app.js:763`); `su` sekmesi `TAB_ISIMLER` ve `konular` haritalarında tanımlı. Sohbet kutusu otomatik ekleniyor — `index.html:660`'taki yorum bilgilendirme amaçlı, eksik iş yok.
+- **Durum:** `switchTab()` her sekme geçişinde `sohbetiYukle(id)` çağırıyor (`app.js:763`); `su` sekmesi `TAB_ISIMLER` ve `konular` haritalarında tanımlı. Sohbet kutusu otomatik ekleniyor — `index.html:660`'taki yorum bilgilendirme amaçlı, eksik iş yok.
 
 ### 3. Dijital Ekran Süresi — AI Sohbet Kutusu ✅ TAMAMLANDI
 - **Durum:** Su sekmesiyle aynı mekanizma; `dijital` sekmesi de `TAB_ISIMLER` ve `konular` haritalarında tanımlı, sohbet kutusu otomatik ekleniyor.
