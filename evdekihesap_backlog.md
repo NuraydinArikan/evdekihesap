@@ -16,15 +16,11 @@
   3. Ayarlar sekmesi + footer'a geri bildirim butonunu ekle
   4. Mailchimp 7. gün e-postasına da ekle
 
-### 2. Su Sekmesi — AI Sohbet Kutusu Eksik
-- **Dosya:** `index.html:660`
-- **Yorum:** `<!-- Not: Su sekmesi mesaj kutusu sohbetiYukle('su') ile otomatik eklenecek -->`
-- **Yapılacak:** `sohbetiYukle('su')` çağrısını Su sekmesinin uygun yerine ekle (diğer sekmelerdeki gibi)
+### 2. Su Sekmesi — AI Sohbet Kutusu ✅ TAMAMLANDI
+- **Durum:** `switchTab()` her sekme geçişinde `sohbetiYukle(id)` çağırıyor (`app.js:763`); `su` sekmesi `TAB_ISIMLER` ve `konular` haritalarında tanımlı. Sohbet kutusu otomatik ekleniyor — `index.html:660`'taki yorum bilgilendirme amaçlı, eksik iş yok.
 
-### 3. Dijital Ekran Süresi — AI Sohbet Kutusu Eksik
-- **Dosya:** `index.html:698`
-- **Yorum:** `<!-- Not: Dijital Ekran Sürem mesaj kutusu sohbetiYukle('dijital') ile otomatik eklenecek -->`
-- **Yapılacak:** `sohbetiYukle('dijital')` çağrısını Dijital Denge sekmesine ekle
+### 3. Dijital Ekran Süresi — AI Sohbet Kutusu ✅ TAMAMLANDI
+- **Durum:** Su sekmesiyle aynı mekanizma; `dijital` sekmesi de `TAB_ISIMLER` ve `konular` haritalarında tanımlı, sohbet kutusu otomatik ekleniyor.
 
 ---
 
@@ -39,10 +35,8 @@
   - FAQ yanıtlarını (`app.js:3120-3143`) gerçek Shopier linki ile güncelle
   - Premium kullanıcılar için ayrıcalıklı özellik belirle (ör. genişletilmiş AI kotası)
 
-### 5. CSS Geçiş Animasyonları
-- **Dosya:** `style.css:297`
-- **Yorum:** `/* Animasyonlu geçişler için transition eklenebilir */`
-- **Yapılacak:** Sekme geçişlerine ve kart görünümlerine `transition` ekle
+### 5. CSS Geçiş Animasyonları ✅ BÜYÜK ORANDA TAMAMLANDI
+- **Durum:** Sekme geçişlerinde `fadeIn` animasyonu var (`style.css:168`), avatar geçişi `transition` ile animasyonlu (`style.css:297` civarı). İsteğe bağlı: kart hover durumlarına da geçiş eklenebilir.
 
 ### 6. Firebase Index Uyarıları
 - **Dosya:** `app.js:2573`
@@ -69,10 +63,9 @@ Aşağıdaki düzeltmeler kodda yorum satırı olarak belgelenmiş; tümü tamam
 | FIX #12 | T12:00:00 timezone kayması düzeltildi | `app.js:463` |
 | FIX — | `activeListeners` ile temiz listener yönetimi | `app.js:103` |
 
-### 8. README Güncellenmeli
+### 8. README Güncellenmeli ✅ TAMAMLANDI
 - **Dosya:** `README.md`
-- **Durum:** Sadece başlık var (`# evdekihesap`)
-- **Yapılacak:** Proje açıklaması, modül listesi, kurulum adımları ekle
+- **Durum:** Proje açıklaması, modül listesi, teknoloji özeti ve kurulum adımları eklendi.
 
 ---
 
