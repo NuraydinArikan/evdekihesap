@@ -26,7 +26,7 @@
 | 💧 Su Tasarrufu | Su faturası analizi + Damacana Endeksi |
 | 📱 Dijital Ekran Sürem | Ekran süresi takibi, Ekransız Aile Saati |
 
-Her sekmede **"Mutfak Masası" AI sohbeti** bulunur: kullanıcı, o modülün konusuna özel olarak yapay zeka asistanıyla (Gemini) sohbet edebilir. Uygulama **Bireysel** ve **Aile (grup)** modlarında çalışır; sekme adları moda göre uyarlanır ("Ne Alsam?" / "Ne Alsak?" gibi).
+Ayarlar ve Nereye Gitsem! hariç her sekmede **"Mutfak Masası" AI sohbeti** bulunur: kullanıcı, o modülün konusuna özel olarak yapay zeka asistanıyla (Gemini) sohbet edebilir. Uygulama **Bireysel** ve **Aile (grup)** modlarında çalışır; sekme adları moda göre uyarlanır ("Ne Alsam?" / "Ne Alsak?" gibi).
 
 ## 🔧 Teknoloji
 
@@ -99,5 +99,4 @@ Bekleyen işler ve öncelikler için [`evdekihesap_backlog.md`](evdekihesap_back
 
 ## ⚖️ Lisans
 
-© 2026 Nuraydın Arıkan. Tüm hakları saklıdır — ayrıntılar için [`LICENSE`](LICENSE) dosyasına bakın. Kaynak kod, şeffaflık ve inceleme amacıyla herkese açık olarak yayımlanmıştır; yazılı izin olmadan kopyalanamaz, değiştirilemez, dağıtılamaz veya ticari amaçla kullanılamaz.
 © 2026 Nuraydın Arıkan. Tüm hakları saklıdır — ayrıntılar için [`LICENSE`](LICENSE) dosyasına bakın. Kaynak kod, şeffaflık ve inceleme amacıyla herkese açık olarak yayımlanmıştır; yazılı izin olmadan kopyalanamaz, değiştirilemez, dağıtılamaz veya ticari amaçla kullanılamaz.
