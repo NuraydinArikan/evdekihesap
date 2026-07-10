@@ -82,8 +82,8 @@ Aşağıdaki düzeltmeler kodda yorum satırı olarak belgelenmiş; tümü tamam
 | 🌿 Bitkiler | `app.js:1639` | ✅ Aktif |
 | 🐾 Canlar (evcil hayvanlar) | `app.js:1680` | ✅ Aktif |
 | ⚡ Enerji Tasarrufu | `app.js:1837` | ✅ Aktif |
-| 💧 Su Tasarrufu | `app.js:2048` | ⚠️ AI sohbet eksik |
-| 📱 Dijital Denge | `app.js:2109` | ⚠️ AI sohbet eksik |
+| 💧 Su Tasarrufu | `app.js:2048` | ✅ Aktif |
+| 📱 Dijital Denge | `app.js:2109` | ✅ Aktif |
 | 📚 Kütüphane | `app.js:2223` | ✅ Aktif |
 | 📅 Ajanda | `app.js:2571` | ✅ Aktif |
 | 👨‍👩‍👧‍👦 Ailem | `app.js:2616` | ✅ Aktif |
